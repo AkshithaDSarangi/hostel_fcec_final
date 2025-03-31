@@ -1,0 +1,130 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Canteen Menu Item</h2>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 5px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="POST">
+            <div class="form-group">
+                <label>Meal Type</label>
+                <select name="meal_type" required>
+                    <option value="">Select Meal Type</option>
+                    <option value="Breakfast" {% if menu_item.meal_type == 'Breakfast' %}selected{% endif %}>Breakfast</option>
+                    <option value="Lunch" {% if menu_item.meal_type == 'Lunch' %}selected{% endif %}>Lunch</option>
+                    <option value="Dinner" {% if menu_item.meal_type == 'Dinner' %}selected{% endif %}>Dinner</option>
+                    <option value="Snack" {% if menu_item.meal_type == 'Snack' %}selected{% endif %}>Snack</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Day</label>
+                <select name="day" required>
+                    <option value="">Select Day</option>
+                    <option value="Monday" {% if menu_item.day == 'Monday' %}selected{% endif %}>Monday</option>
+                    <option value="Tuesday" {% if menu_item.day == 'Tuesday' %}selected{% endif %}>Tuesday</option>
+                    <option value="Wednesday" {% if menu_item.day == 'Wednesday' %}selected{% endif %}>Wednesday</option>
+                    <option value="Thursday" {% if menu_item.day == 'Thursday' %}selected{% endif %}>Thursday</option>
+                    <option value="Friday" {% if menu_item.day == 'Friday' %}selected{% endif %}>Friday</option>
+                    <option value="Saturday" {% if menu_item.day == 'Saturday' %}selected{% endif %}>Saturday</option>
+                    <option value="Sunday" {% if menu_item.day == 'Sunday' %}selected{% endif %}>Sunday</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Start Time</label>
+                <input type="time" name="start_time" value="{{ menu_item.start_time.strftime('%H:%M') }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label>End Time</label>
+                <input type="time" name="end_time" value="{{ menu_item.end_time.strftime('%H:%M') }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" placeholder="Enter menu description">{{ menu_item.description }}</textarea>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" name="repeats_weekly" id="repeats_weekly"
+                       {% if menu_item.repeats_weekly %}checked{% endif %}>
+                <label for="repeats_weekly">Repeats Weekly</label>
+            </div>
+            
+            <button type="submit" class="submit-btn">Update Menu Item</button>
+        </form>
+    </div>
+</body>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Canteen Feedback</h2>
+    
+    <div class="mb-3">
+        <a href="{{ url_for('admin_canteen') }}" class="btn btn-secondary">Back to Menu Management</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h5>Student Feedback</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Meal Type</th>
+                            <th>Date</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Submitted On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in feedback %}
+                        <tr>
+                            <td>{{ item.student_name }}</td>
+                            <td>{{ item.meal_type.capitalize() }}</td>
+                            <td>{{ item.date }}</td>
+                            <td>
+                                <div class="text-warning">
+                                    {% for i in range(item.feedback.rating) %}
+                                    <i class="fa fa-star"></i>
+                                    {% endfor %}
+                                    {% for i in range(5 - item.feedback.rating) %}
+                                    <i class="fa fa-star-o"></i>
+                                    {% endfor %}
+                                    ({{ item.feedback.rating }}/5)
+                                </div>
+                            </td>
+                            <td>{{ item.feedback.comment if item.feedback.comment else 'No comment' }}</td>
+                            <td>{{ item.feedback.created_at }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">No feedback found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
